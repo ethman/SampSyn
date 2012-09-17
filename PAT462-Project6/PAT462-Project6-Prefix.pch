@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'PAT462-Project6' target in the 'PAT462-Project6' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+#endif

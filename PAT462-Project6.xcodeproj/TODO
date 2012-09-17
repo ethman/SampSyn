@@ -1,0 +1,21 @@
+TODO:
+
+-Smoothing algorithm:
+    Do I need two FileLoop objects?
+
+-Convert to CoreAudio
+
+-Waveform:
+    What if I select towards the end of the file? Right now, loops to begining
+    Color waveform correctly
+    Highlight played area - DONE
+    Create new thread to draw waveform
+
+-Reimagine UI:
+    Make waveform bigger
+    Add mini keyboard at bottom
+    More subtle open/start buttonss
+
+-Find transition btwn file and aliasing 
+
+-No output on release build?
