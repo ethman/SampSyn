@@ -1,6 +1,6 @@
 
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-Digital Sound Synthesis - PAT 462 final project
+SampSyn - Beta
 by Ethan Manilow
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -31,39 +31,19 @@ To run:
 
 Known issues (issues I've had):
 
--The final build product created by Xcode doesn't make sound. Although if you open the Xcode project and hit run, it works fine. I have no idea why.
+-The final build product created by Xcode doesn't make sound. Although if you open the Xcode project and hit run, it works fine. I have no idea why. BIG ISSUE, potentially solved by migrating to CoreAudio (See below).
 
--The pitch correction algorithm is still in progress; it works okay at this point, but seg faults if you click 'Stop MIDI' while it is running. Hard to diagnose because it seg faults at some assembly line.
 
 -Pitch correction algorithm produces wrong notes at high note values. This is because the algorithm computes number of samples to be played based on keyboard input. When the number of samples is very small (ie high frequency/notes), the difference between two keys can be so small that it is effectively 0 according to the algorithm. Thus we hear a few keys in the higher register that are incorrect. This should be better for files with higher sample rates.
 
--Pith correction algorithm has a hard time playing the whole file. There is an octave shifter in place, but that can sometimes be finicky. This means that the pitch correction algorithm mainly produces an expensive sawtooth wave unless we can hear the transition from file content to rapid grains. Not very cool sounding.
-
--For some reason RtAudio, doesn't accept .aif files. I've restricted file input to .wav only.
-
--NSTextField "Note Length" displays huge numbers. EEK!
-
--Icon doesn't display completely right.
-
--I just discovered that the output is mono. I still need to do some tinkering to tick(), because I don't entirely understand why some things work and others do not.
-
+-Pith correction algorithm has a hard time playing the whole file. There is an octave shifter in place, but that can sometimes be finicky. This means that the pitch correction algorithm mainly produces an expensive sawtooth wave unless we can hear the transition from file content to rapid grains. Not very cool sounding. Potentially not such a huge issue - easily fixed by adding lower powers of 2 to the bottom.
 
 
 
 
 Still to do:
 
--Draw the wave function so that the user can select where in the file they want to start the algorithm. For instance, if a file starts even with a half second of silence, most of the keys on the keyboard will produce no sound as a result. The solution is to move the reading point of the file to somewhere significant. I've found a few good resources about waveform overview algorithms but I need to learn more about coreGraphics to actually implement something. From there wherever the user clicks will be sent to the driver and adjusted accordingly. To implement this I will have to switch from using a FileLoop object to a FileRead object. Like I mentioned I still don't fully understand how to fill up the buffer using StkFrames, but I would have to do so for this feature. Details to work out: what if user selects the from the last few samples?
-
 -Implement the Smoothing Algorithm. This will be useful because even at moderate frequencies the synth sounds like a sawtooth wave because we hear the restarting of the sampled bit more than the actual samples. In the end though, it might not make much of a difference at high frequencies. This algorithm will be similar to the time stretching algorithms mentioned in class. For instance, if the user depressed the key corresponding to putting 1000 samples on the output buffer, I would grab 1100 samples: 50 samples before starting point, the 1000 desired samples, and 50 samples after the end point (50 is an arbitrary number I picked for this example). Then I would cross fade the 50 extra samples at the beginning with the 50 extra samples at the end. Still a few details to work out: how to retain correct timing with extra samples, how this will affect pitch correction algorithm, what if user selects beginning/end of file?
 
 -Try to reimplement this as an AudioUnit so it is compatible with other audio hosts. Requires a lot of learning about CoreAudio & AudioUnits. Big idea!!!
 
-
-
-
-In closing:
-
-Thanks for a great semester! I really enjoyed everything I learned in this class and had a load of fun! I am going to keep working on this throughout the summer and I plan on starting a few other projects that I've had in mind too. I used this project as an excuse to learn Objective-C/Cocoa, too, as this is really the first thing I've built that isn't a command line tool. I'm really happy with the work I've gotten done thus far, and can't wait to keep building synthesizers. Thanks for getting me started!
-
-		-Ethan Manilow
